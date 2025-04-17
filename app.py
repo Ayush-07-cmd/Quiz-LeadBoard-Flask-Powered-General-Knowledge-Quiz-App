@@ -13,7 +13,7 @@ load_dotenv()
 # Configure Gemini API
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-genai.configure(api_key="AIzaSyD1XJtiSMuln2ZdcJtVakXJUZNw0y_fkC4")  # Replace with your actual key
+genai.configure(api_key="APi Key dhfdgfjnfnnf654ff")  # Replace with your actual key
 
 # ⚡️ Use LRU cache to store recent answers (max 100)
 @lru_cache(maxsize=100)
