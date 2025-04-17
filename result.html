@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Result</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Confetti.js -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body id="result-body" class="min-h-screen flex items-center justify-center px-4 relative overflow-hidden transition-all duration-1000">
+
+    <!-- Emoji Burst -->
+    <div id="emoji-burst" class="absolute inset-0 flex justify-center items-center pointer-events-none z-10">
+        <div class="text-6xl animate-bounce">🎊🎉✨</div>
+    </div>
+
+    <div class="bg-white p-10 rounded-2xl shadow-2xl max-w-xl w-full text-center z-20">
+        <!-- Avatar & Username -->
+        <div class="flex flex-col items-center mb-6">
+            <div class="text-6xl">{{ session['avatar'] }}</div>
+            <h2 class="text-2xl font-semibold text-gray-800 mt-2">{{ performance }}</h2>
+            <p class="text-lg text-gray-600 mt-1">You scored <span class="font-bold text-green-800 text-xl">{{ score }}</span>/10</p>
+        </div>
+
+        <!-- Celebration Title -->
+        <h2 class="text-3xl font-bold text-green-700 mb-4">🎉 Quiz Completed!</h2>
+
+        <!-- Buttons -->
+        <div class="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+            <a href="{{ url_for('leaderboard') }}"
+               class="bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-lg text-lg font-medium transition transform hover:scale-105">
+               🏆 View Leaderboard
+            </a>
+            <a href="{{ url_for('home') }}"
+               class="text-green-800 hover:underline text-lg font-medium mt-2 sm:mt-0">
+               🔄 Back to Home
+            </a>
+        </div>
+    </div>
+
+    <!-- Confetti & Background Effect Script -->
+    <script>
+        window.onload = function () {
+            const score = Number("{{ score }}");  // FIXED here
+            const body = document.getElementById('result-body');
+    
+            // Score-based background color
+            if (score <= 4) {
+                body.classList.add("bg-red-100");
+                confetti({ particleCount: 60, spread: 70, emojis: ["💔", "😞", "📉"] });
+            } else if (score <= 6) {
+                body.classList.add("bg-yellow-100");
+                confetti({ particleCount: 80, spread: 90, emojis: ["😐", "📘", "💬"] });
+            } else if (score <= 8) {
+                body.classList.add("bg-blue-100");
+                confetti({ particleCount: 100, spread: 110, emojis: ["👍", "💡", "✨"] });
+            } else if (score === 9) {
+                body.classList.add("bg-green-100");
+                confetti({ particleCount: 120, spread: 130, emojis: ["🎯", "📚", "🏆"] });
+            } else {
+                body.classList.add("bg-yellow-200");
+                confetti({ particleCount: 150, spread: 160, emojis: ["🏅", "🔥", "🎉", "🌟"] });
+            }
+    
+            // Confetti animation loop
+            const duration = 2 * 1000;
+            const end = Date.now() + duration;
+    
+            (function frame() {
+                confetti({
+                    particleCount: 6,
+                    angle: 60,
+                    spread: 70,
+                    origin: { x: 0 },
+                });
+                confetti({
+                    particleCount: 6,
+                    angle: 120,
+                    spread: 70,
+                    origin: { x: 1 },
+                });
+    
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            })();
+        };
+    </script>
+</body>
+</html>
